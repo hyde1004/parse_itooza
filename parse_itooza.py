@@ -1,7 +1,7 @@
 import bs4
 import requests
 
-response = requests.get('http://search.itooza.com/index.htm#indexTable2')
+response = requests.get('http://search.itooza.com/index.htm?seName=%C7%D1%B1%B9%B1%E2%BE%F7%C6%F2%B0%A1&x=24&y=7#indexTable2')
 response.encoding='cp949'
 data = bs4.BeautifulSoup(response.text, 'lxml')
 
@@ -22,10 +22,12 @@ data = bs4.BeautifulSoup(response.text, 'lxml')
 </body>
 
 '''
-table_body = data.tbody
 
-rows = table_body.find_all('tr')
-
-for row in rows:
-	if (row.th.string == '주당 배당금'):
-		print(row.th)
+table = data.find('div', attrs={'id':'indexTable2'})
+trs = table.find_all('tr')
+for tr in trs:
+	if tr.th.text == '주당 배당금':
+		print(tr.th.text)
+		tds = tr.find_all('td')
+		for td in tds:
+			print(td.text)
