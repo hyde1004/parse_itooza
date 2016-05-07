@@ -1,9 +1,14 @@
 import bs4
+from urllib import parse
 import requests
 
-response = requests.get('http://search.itooza.com/index.htm?seName=%C7%D1%B1%B9%B1%E2%BE%F7%C6%F2%B0%A1&x=24&y=7#indexTable2')
+company = '한국기업평가'
+company_cp949 = parse.quote(company.encode('cp949'))
+
+url = 'http://search.itooza.com/index.htm?seName=' + company_cp949 + '&x=24&y=7#indexTable2'
+response = requests.get(url)
 response.encoding='cp949'
-data = bs4.BeautifulSoup(response.text, 'lxml')
+data = bs4.BeautifulSoup(response.text, 'html.parser')
 
 '''
 <body>
