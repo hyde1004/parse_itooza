@@ -2,8 +2,11 @@ import bs4
 from urllib import parse
 import requests
 
-company = '한국기업평가'
+company = input('Company(ex, 한국기업평가) : ')
+if not company:
+  company = '한국기업평가'
 company_cp949 = parse.quote(company.encode('cp949'))
+
 
 url = 'http://search.itooza.com/index.htm?seName=' + company_cp949 + '&x=24&y=7#indexTable2'
 response = requests.get(url)
