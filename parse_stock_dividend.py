@@ -1,6 +1,16 @@
 import bs4
 from urllib import parse
 import requests
+import csv
+
+row = []
+
+# with open('eggs.csv', 'w', newline='') as csvfile:
+#     spamwriter = csv.writer(csvfile, delimiter='\t')
+#     spamwriter.writerows([['apple','banana', 'ccc']])
+
+csvfile = open('eggs.csv', 'w', newline='', encoding='utf-8')
+spamwriter = csv.writer(csvfile, delimiter='\t')
 
 def get_dividend(company):     
 #  company = input('Company(ex, 한국기업평가) : ')
@@ -28,13 +38,13 @@ def get_dividend(company):
         <div id='content'>
           <div id='indexTable'>
             <div id='indexTable2'>
-            	<table border='1' class='ex'>
-            	  <tbody>
-            	    <tr>
-            	      <th><abbr title='주당 배당금'>주당 배당금</abbr></th>
-            	      <td>1,537</td>
-            	      <td>1,682</td>
-            	    </tr>
+              <table border='1' class='ex'>
+                <tbody>
+                  <tr>
+                    <th><abbr title='주당 배당금'>주당 배당금</abbr></th>
+                    <td>1,537</td>
+                    <td>1,682</td>
+                  </tr>
   </body>
 
   '''
@@ -47,12 +57,17 @@ def get_dividend(company):
     return
 
   for tr in trs:
-  	if tr.th.text == '주당 배당금':
-  		print(tr.th.text)
-  		tds = tr.find_all('td')
-  		for td in tds:
-  			print(td.text, end=' ')
-  print()
+    if tr.th.text == '주당 배당금':
+      print(tr.th.text)
+      tds = tr.find_all('td')
+      for td in tds:
+        print(td.text, end=' ')
+        row.append(td.text)
+      print()
+
+row = ['year']
+row = row + [i for i in range(2015, 2003, -1)]
+spamwriter.writerows([row])
 
 url = 'http://paxnet.moneta.co.kr/stock/searchStock/searchStock.jsp?section=0'
 response = requests.get(url)
@@ -62,6 +77,10 @@ trs = data.find_all('tr')
 for tr in trs:
   tds = tr.find_all('a')
   for td in tds:
+    row = []
+    row.append(td.text)
     get_dividend(td.text)
+    spamwriter.writerows([row])
 print()
+
 
