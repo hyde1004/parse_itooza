@@ -57,7 +57,7 @@ def get_dividend(company):
 url = 'http://paxnet.moneta.co.kr/stock/searchStock/searchStock.jsp?section=0'
 response = requests.get(url)
 response.encoding='cp949'
-data = bs4.BeautifulSoup(response.text, 'html.parser')
+data = bs4.BeautifulSoup(response.text.replace('&', '&amp;'), 'html.parser')
 trs = data.find_all('tr')
 for tr in trs:
   tds = tr.find_all('a')
