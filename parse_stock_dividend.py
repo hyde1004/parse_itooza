@@ -9,7 +9,7 @@ row = []
 #     spamwriter = csv.writer(csvfile, delimiter='\t')
 #     spamwriter.writerows([['apple','banana', 'ccc']])
 
-csvfile = open('eggs.csv', 'w', newline='', encoding='utf-8')
+csvfile = open('eggs.csv', 'w', newline='', encoding='cp949')
 spamwriter = csv.writer(csvfile, delimiter='\t')
 
 def get_dividend(company):     
